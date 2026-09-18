@@ -3,9 +3,9 @@ const jwt = require("jsonwebtoken");
 
 // generate token
 const generateToken = (id) => {
+  console.log("JWT SECRET LOADED:", !!process.env.JWT_SECRET);
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "7d" });
 };
-
 // @desc register new user
 const register = async (req, res) => {
   try {
