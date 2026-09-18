@@ -1,4 +1,4 @@
-export const BASE_URL = "https://https://mern-job-portal-o3i1.onrender.com.onrender.com";
+export const BASE_URL = "https://mern-job-portal-o3i1.onrender.com";
 
 export const API_PATHS = {
   AUTH: {
