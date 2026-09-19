@@ -1,4 +1,10 @@
 require("dotenv").config();
+
+console.log(
+  "JWT SECRET TEST:",
+  process.env.JWT_SECRET ? "LOADED" : "NOT LOADED"
+);
+
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
@@ -13,22 +19,26 @@ const analyticsRoutes = require("./routes/analyticsRoutes");
 
 const app = express();
 
-// middleware to handle cors
+// CORS
 app.use(
   cors({
-    origin: "*",
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    origin: [
+      "http://localhost:5173",
+      "https://mern-job-portal-mauve-eight.vercel.app",
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
   })
 );
 
-// connect database
+// Connect database
 connectDB();
 
-//Middleware
+// Middleware
 app.use(express.json());
 
-// routes
+// Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/jobs", jobsRoutes);
@@ -36,9 +46,12 @@ app.use("/api/applications", applicationRoutes);
 app.use("/api/save-jobs", savedJobsRoutes);
 app.use("/api/analytics", analyticsRoutes);
 
-// serve uploads folder
-app.use("/uploads", express.static(path.join(__dirname, "uploads"), {}));
+// Serve uploads folder
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// start server
+// Start server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server is running on port: ${PORT}`));
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
